@@ -1,5 +1,14 @@
 {% extends 'base.html' %}
 
 {% block body %}
-	<h1>Unfortunately, I am the Hero of Ages.</h1>
+	<h1>Welcome to Coppermind. Get reminders for your coursework deadlines.</h1>
+	<form method="POST" action="/">
+		{{ form.csrf_token}}
+		{{ form.email.label }} {{ form.email(size=20)}}
+		<br>
+		{{ form.course_id.label }} {{ form.course_id(size=20)}}
+		<br><br>
+		{{ form.take_or_drop.label }} {{ form.take_or_drop }}
+		<input type="submit" value="Go">
+	</form>
 {% endblock %}
