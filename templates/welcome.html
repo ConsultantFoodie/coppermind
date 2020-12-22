@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block body %}
+	<h1>Welcome to Coppermind.</h1>
+	<h2>Get reminders for your coursework deadlines.</h2>
+	<p>
+		Greetings. I am Sazed, your humble Terris servant. I will be glad to assist you this semester.
+		<br>
+		With the help of Feruchemy, I can store my memories and draw them out at will. Any deadlines that you instruct me to remember, I will do so. I will periodically remind you of the same, so you can focus your efforts in the rebellion against the Lord Ruler.
+		<br>
+		Please login to continue.
+		<br>
+		<a class="nav-item nav-link" href="{{ url_for('login') }}">Login</a>
+		<a class="nav-item nav-link" href="{{ url_for('register') }}">Register</a>
+	</p>
+{% endblock %}

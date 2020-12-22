@@ -1,6 +1,9 @@
-from flask import Flask, render_template, url_for, redirect
-from forms import RegistrationForm
+from flask import Flask, render_template, url_for, redirect, flash, request
+from forms import RegistrationForm, LoginForm
 from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
+from flask_login import LoginManager, UserMixin, login_user, current_user, logout_user, login_required
+# import os
 
 '''
 	TODO: Add passwords for users so that emails are not misused
@@ -9,57 +12,68 @@ from flask_sqlalchemy import SQLAlchemy
 '''
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = 'IAmTheHeroOfAges'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///manager.db'
+app.config['SECRET_KEY'] = 'IAmTheHeroOfAges'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sazed.db'
 db = SQLAlchemy(app)
+bcrypt = Bcrypt(app)
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'
+login_manager.login_message_category = 'info'
 
-class Student(db.Model):
-	email = db.Column(db.String, primary_key=True)
-	courses = db.Column(db.String(100), nullable=False)
+@login_manager.user_loader
+def load_user(user_id):
+    return Student.query.get(int(user_id))
+
+class Student(db.Model, UserMixin):
+	id = db.Column(db.Integer, primary_key=True)
+	gender = db.Column(db.Integer, nullable=False)
+	username = db.Column(db.String(30), nullable=False)
+	email = db.Column(db.String(40), unique=True, nullable=False)
+	password = db.Column(db.String(60), nullable=False)
+	courses = db.Column(db.String(100), nullable=True)
 
 	def __repr__(self):
-		return '{}: {}'.format(self.email, self.courses)
+		return '{}: {}'.format(self.username, self.email)
 
 
 @app.route('/', methods=['GET', 'POST'])
-def index():
-	reg_form = RegistrationForm()
-	if reg_form.validate_on_submit():
-		reg_form.course_id.data = reg_form.course_id.data.upper()
-		try:
-			existing = Student.query.get_or_404(reg_form.email.data)
-			#If student exists, adding or dropping courses according to their choice
-			course_list = existing.courses.split(';')
-			if reg_form.take_or_drop.data == '1':
-				if reg_form.course_id.data not in course_list:
-					course_list.append(reg_form.course_id.data)
-			else:
-				if reg_form.course_id.data in course_list:
-					course_list.remove(reg_form.course_id.data)
-			try:
-				if len(course_list) == 0:
-					db.session.delete(existing)
-				else:
-					existing.courses = ';'.join(course_list)
-				db.session.commit()
-			except Exception as e:
-				return "ERROR: Cannot process request\n\n{}".format(e)
+def welcome():
+	return render_template("welcome.html")
 
-			return redirect(url_for('index'))
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+	form = RegistrationForm()
+	if form.validate_on_submit():
+		hashed_pass = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+		student = Student(gender=int(form.gender.data), username=form.name.data,
+						email=form.email.data, password=hashed_pass)
+		print(student)
+		try:
+			db.session.add(student)
+			db.session.commit()
+			flash("Pleased to make your acquaitance. Please login to continue.", 'success')
+			return redirect(url_for('login'))
 		except:
-			# Adding student in database if registering for a course
-			# Ignoring if dropping a course since student does not exist in database
-			if reg_form.take_or_drop.data == '1':
-				student = Student(email=reg_form.email.data, courses=reg_form.course_id.data)
-				try:
-					db.session.add(student)
-					db.session.commit()
-				except Exception as e:
-					return "ERROR: Cannot process request\n\n{}".format(e)
-			return redirect(url_for('index'))
-		
-	print(Student.query.all())
-	return render_template("index.html", reg_form=reg_form)
+			print("Error")
+	else:
+		print(form.errors)
+		print("INVALID")
+	return render_template("register.html", form=form)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+	form = LoginForm()
+	if form.validate_on_submit():
+		student = Student.query.filter_by(email=form.email.data).first()
+		print(student)
+		if student and bcrypt.check_password_hash(student.password, form.password.data):
+			login_user(student, remember=form.remember.data)
+			next_page = request.args.get('next')
+			return redirect(next_page) if next_page else redirect(url_for('welcome'))
+		else:
+			flash("I do not recognise you. Please check your email address and password", "danger")
+	return render_template("login.html", form=form)
 
 if __name__ == "__main__":
 	app.run(debug=True)
