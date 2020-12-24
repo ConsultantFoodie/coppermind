@@ -1,5 +1,10 @@
-from main import db, login_manager
+from coppermind.main import db, login_manager
 from flask_login import UserMixin
+
+@login_manager.user_loader
+def load_user(user_id):
+    return Student.query.get(int(user_id))
+
 
 class Student(db.Model, UserMixin):
 	id = db.Column(db.Integer, primary_key=True)

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block heading %}
+	<h2>
+		Welcome,
+		{% if current_user.gender == 0 %}
+			Lord 
+		{% elif current_user.gender == 1 %}
+			Lady
+		{% else %}
+			Noble
+		{% endif %}
+		{{ current_user.username }}
+	</h2>
+	<h3>How can I be of use today?</h3>
+{% endblock %}
+
+{% block content %}
+	{% if current_user.courses == None %}
+		<p>It seems you have not told me about your coursework. Please do so at the earliest to help me assist you.</p>
+	{% else %}
+		<p>You wish to be reminded of the deadlines for the following courses:</p>
+		<ul>
+			{% for course in user_courses%}
+				<li>{{ course }}</li>
+			{% endfor %}
+		</ul>
+		<p>Please let me know if we wish to add or drop any courses.</p>
+	{% endif %}
+
+	<a class="nav-item nav-link welcome" href="{{ url_for('courses') }}">
+		<button type="button" class="button">Add/Drop Courses</button>
+	</a>
+{% endblock %}

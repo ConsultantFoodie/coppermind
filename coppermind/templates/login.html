@@ -7,17 +7,18 @@
 
 {% block content %}
 	<form method="POST" action="{{ url_for('login') }}">
+		<input type="hidden" name="next" value="{{ request.args.get('next', '') }}" />
 		{{ form.csrf_token}}
 		{{ form.email.label }}
 		<br>
 		{{ form.email(size=20)}}
-		<br>
+		<br><br>
 		{{ form.password.label }}
 		<br>
 		{{ form.password(size=20)}}
 		<br>
 		{{ form.remember }} {{ form.remember.label }}
-		<br>
-		<input type="submit" value="Submit">
+		<br><br>
+		{{ form.submit }}
 	</form>
 {% endblock %}

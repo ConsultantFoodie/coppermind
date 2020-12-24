@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block heading %}
+	<h3>Please tell me which course you wish to add/drop</h3>
+{% endblock %}
+
+{% block content %}
+	<form method="POST" action="{{ url_for('courses') }}">
+		{{ form.csrf_token}}
+		{{ form.course_id.label }}
+		<br>
+		{{ form.course_id(size=20, placeholder="Course ID")}}
+		<br><br>
+		{{ form.add_drop.label }}
+		<br>
+		{% for subfield in form.add_drop %}
+		    <tr>
+		        <td>{{ subfield }}</td>
+		        <td>{{ subfield.label }} &nbsp; &nbsp;</td>
+		    </tr>
+		{% endfor %}
+		<br><br>
+		{{ form.submit }}
+	</form>
+{% endblock %}
