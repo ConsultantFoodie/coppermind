@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
 
-{% block body %}
+{% block heading %}
 	<h1>Welcome to Coppermind.</h1>
 	<h2>Get reminders for your coursework deadlines.</h2>
+{% endblock %}
+
+{% block content %}
 	<form method="POST" action="{{ url_for('login') }}">
 		{{ form.csrf_token}}
 		{{ form.email.label }}

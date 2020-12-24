@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
 
-{% block body %}
+{% block heading %}
 	<h1>Welcome to Coppermind.</h1>
 	<h2>Get reminders for your coursework deadlines.</h2>
+{% endblock %}
+
+{% block content %}
 	<p>
 		Greetings. I am Sazed, your humble Terris servant. I will be glad to assist you this semester.
 		<br>
@@ -10,7 +13,11 @@
 		<br>
 		Please login to continue.
 		<br>
-		<a class="nav-item nav-link" href="{{ url_for('login') }}">Login</a>
-		<a class="nav-item nav-link" href="{{ url_for('register') }}">Register</a>
+		<a class="nav-item nav-link welcome" href="{{ url_for('login') }}">
+			<button type="button" class="button">Login</button>
+		</a>
+		<a class="nav-item nav-link welcome" href="{{ url_for('register') }}">
+			<button type="button" class="button">Register</button>
+		</a>
 	</p>
 {% endblock %}

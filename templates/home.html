@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block heading %}
+	<h2>
+		Welcome,
+		{% if current_user.gender == 0 %}
+			Lord 
+		{% elif current_user.gender == 1 %}
+			Lady
+		{% else %}
+			Noble
+		{% endif %}
+		{{ current_user.username }}
+	</h2>
+	<h3>How can I be of use today?</h3>
+{% endblock %}

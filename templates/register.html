@@ -1,28 +1,37 @@
 {% extends 'base.html' %}
 
-{% block body %}
-	<h1>Welcome to Coppermind.</h1>
-	<h2>Get reminders for your coursework deadlines.</h2>
+{% block heading %}
+	<h3>Please tell me about yourself, so I can serve you better.</h3>
+{% endblock %}
+
+{% block content %}
 	<form method="POST" action="{{ url_for('register') }}">
 		{{ form.csrf_token}}
-		{{ form.gender.label }} {{ form.gender }}
+		{{ form.gender.label }}
 		<br>
+		{% for subfield in form.gender %}
+		    <tr>
+		        <td>{{ subfield }}</td>
+		        <td>{{ subfield.label }} &nbsp; &nbsp;</td>
+		    </tr>
+		{% endfor %}
+		<br><br>
 		{{ form.name.label }}
 		<br>
-		{{ form.name(size=20)}}
-		<br>
+		{{ form.name(size=20, placeholder="First Name")}}
+		<br><br>
 		{{ form.email.label }}
 		<br>
-		{{ form.email(size=20)}}
-		<br>
+		{{ form.email(size=20, placeholder="Email ID")}}
+		<br><br>
 		{{ form.password.label }}
 		<br>
-		{{ form.password(size=20)}}
-		<br>
+		{{ form.password(size=20, placeholder="Password")}}
+		<br><br>
 		{{ form.confirm_pass.label }}
 		<br>
-		{{ form.confirm_pass(size=20)}}
-		<br>
+		{{ form.confirm_pass(size=20, placeholder="Confirm Password")}}
+		<br><br>
 		<input type="submit" value="Submit">
 	</form>
 {% endblock %}
