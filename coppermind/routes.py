@@ -2,7 +2,7 @@ from flask import render_template, url_for, redirect, flash, request
 from flask_login import login_user, current_user, logout_user, login_required
 from coppermind.main import app, db, bcrypt
 from coppermind.forms import RegistrationForm, LoginForm, CourseForm
-from coppermind.models import Student
+from coppermind.models import Student, Course, Signup
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -54,9 +54,6 @@ def login():
 			login_user(student, remember=form.remember.data)
 			next_page = request.values.get('next')
 			print(request)
-			# if request.method == 'POST':
-			# 	session['email'] = request.form.get['email']
-			# 	print(url_for())
 			return redirect(next_page) if next_page else redirect(url_for('home'))
 		else:
 			flash("I do not recognise you. Please check your email address and password. Have you registered?", "danger")
@@ -65,23 +62,59 @@ def login():
 @app.route('/home', methods=['GET', 'POST'])
 @login_required
 def home():
-	return render_template("home.html", user_courses=current_user.courses.split(';'))
+	courses = db.session.query(Course).filter(Signup.course_id==Course.id, Signup.student_id==current_user.id).order_by(Signup.course_id).all()
+	# courses = courses.with_entities()
+	print(courses)
+	return render_template("home.html", user_courses=courses)
+
+
+'''
+	Add list of all courses from Kronos.
+'''
 
 @app.route('/courses', methods=['GET', 'POST'])
 @login_required
 def courses():
 	form = CourseForm()
 	if form.validate_on_submit():
+		form.course_id.data = form.course_id.data.upper()
 		print(form.course_id.data, form.add_drop.data)
+		if form.add_drop.data == '1':
+			student = Student.query.filter_by(email=current_user.email).first()
+			course = Course.query.filter_by(course_id=form.course_id.data).first()
+			print(course)
+			print("ALL: ", Course.query.all())
+			if not course:
+				course = Course(course_id=form.course_id.data, deadlines="None")
+				db.session.add(course)
+
+			checker = Signup.query.filter_by(course_id=course.id, student_id=student.id).first()
+			if not checker:
+				student.courses.append(course)
+				course.students.append(student)
+
+			db.session.commit()
+
+		elif form.add_drop.data == '0':
+			student = Student.query.filter_by(email=current_user.email).first()
+			course = Course.query.filter_by(course_id=form.course_id.data).first()
+			if student and course:
+				print(Course.query.all())
+				print("_________")
+				print(Student.query.all())
+				print("_________")
+				print(Signup.query.all())
+				signed_up = Signup.query.filter_by(course_id=course.id, student_id=student.id).first()
+				if signed_up:
+					db.session.delete(signed_up)
+					db.session.commit()
 		flash("I have done as you requested.", "success")
 		return redirect(url_for('courses'))
 	else:
 		if "course_id" in form.errors.keys():
-			print(form.errors)
 			flash("I seem to have trouble doing this. Can you check the Course ID? It should be exactly 7 characters long.", "danger")
-			return redirect(url_for('courses'))
 
-	print(form.errors)
+
 	return render_template("courses.html", form=form)
 
 @app.route("/logout")

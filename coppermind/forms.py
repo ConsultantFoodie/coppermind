@@ -18,6 +18,6 @@ class LoginForm(FlaskForm):
 	submit = SubmitField('Allow me to assist you.')
 
 class CourseForm(FlaskForm):
-	course_id = StringField("How should I address you?", validators=[DataRequired(), Length(min=7, max=7)])
-	add_drop = RadioField("Do you wish to add this course? Or are you dropping it?", choices=[(0, "Add me to this course."), (1, "Drop me from this course.")], validators=[DataRequired()])
+	course_id = StringField("Which course would you like to talk about?", validators=[DataRequired(), Length(min=7, max=7)])
+	add_drop = RadioField("Do you wish to add this course? Or are you dropping it?", choices=[(1, "Add me to this course."), (0, "Drop me from this course.")], validators=[DataRequired()])
 	submit = SubmitField("That's it for now, Sazed.")

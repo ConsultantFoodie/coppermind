@@ -11,11 +11,14 @@ h1, h2, h3, h4, h5, h6 {
 button {
   background-color: #cc6633;
   border-radius: 10px;
+  display: inline;
   
 }
 
-.nav-link button{
-  display: inline-block;
+#welcome_btn {
+  display: inline;
+  padding-left: 0px;
+  padding-right: 16px;
 }
 
 .bg-steel {
