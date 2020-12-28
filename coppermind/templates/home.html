@@ -22,16 +22,16 @@
 		<p>You wish to be reminded of the deadlines for the following courses:</p>
 		<ul>
 			{% for course in courses%}
-				<li>{{ course.course_name }}</li>
+				<li><a href="{{ url_for('deadlines', course_id=course.id) }}">{{ course.course_name }}</a></li>
 			{% endfor %}
 		</ul>
 		<p>Please let me know if we wish to add or drop any courses.</p>
 	{% endif %}
 
-	<a class="nav-item nav-link welcome" href="{{ url_for('courses') }}">
+	<a class="nav-item nav-link welcome" id="btn" href="{{ url_for('courses') }}">
 		<button type="button" class="button">Add/Drop Courses</button>
 	</a>
-	<a class="nav-item nav-link welcome" href="{{ url_for('work') }}">
+	<a class="nav-item nav-link welcome" id="btn" href="{{ url_for('work') }}">
 		<button type="button" class="button">Add a deadline</button>
 	</a>
 {% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block heading %}
+	<h2>
+		Deadlines for {{ course.course_name }}
+	</h2>
+{% endblock %}
+
+<!-- TODO: Format deadlines properly
+ -->
+{% block content %}
+	{% if current_user.courses == None %}
+		<p>It seems you have not told me about your coursework. Please do so at the earliest to help me assist you.</p>
+	{% else %}
+		<p>You have the following deadlines coming up:</p>
+		<ul>
+			{% for work in display %}
+				<li>{{ work.work_type }} {{ work.brief_desc }}</li>
+			{% endfor %}
+		</ul>
+	{% endif %}
+
+	<a class="nav-item nav-link welcome" id="btn" href="{{ url_for('home') }}">
+		<button type="button" class="button">Back</button>
+	</a>
+{% endblock %}

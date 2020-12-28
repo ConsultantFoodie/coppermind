@@ -134,6 +134,12 @@ def work():
 		return redirect(url_for("work"))
 	return render_template("work.html", form=form)
 
+@app.route("/deadlines/<int:course_id>", methods=['GET', 'POST'])
+def deadlines(course_id):
+	course = Course.query.get_or_404(int(course_id))
+	display = Deadline.query.filter_by(course=course_id).all()
+	return render_template("deadlines.html", display=display, course=course)
+
 @app.route("/logout")
 def logout():
     logout_user()
