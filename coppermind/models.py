@@ -17,21 +17,36 @@ class Student(db.Model, UserMixin):
 	def __repr__(self):
 		return '{}, {}, {}, {}, {}, {}\n'.format(self.id, self.gender, self.username, self.email, self.password, self.courses)
 
-
-# DO NOT CONFUSE BETWEEN course.id and course.course_id. Plan to change var name
 class Course(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
-	course_id = db.Column(db.String(7), unique=True, nullable=False)
-	deadlines = db.Column(db.String(100), nullable=True)
+	course_name = db.Column(db.String(7), unique=True, nullable=False)
+	deadlines = db.relationship('Deadline', backref='course_in', lazy=True)
 	students = db.relationship('Student', secondary='signup')
 
 	def __repr__(self):
-		return '{}'.format(self.course_id, self.deadlines)
+		return '{}: {}'.format(self.course_name, self.deadlines)
 
 class Signup(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
-	course_id = db.Column(db.Integer, db.ForeignKey('course.id'))
-	student_id = db.Column(db.Integer, db.ForeignKey('student.id'))
+	course_id = db.Column(db.Integer, db.ForeignKey('course.id'), nullable=False) #This is course.id
+	student_id = db.Column(db.Integer, db.ForeignKey('student.id'), nullable=False)
 
 	def __repr__(self):
-		return 'C:{}, S:{}\n'.format(self.course_id, self.student_id)
+		return 'C:{}, S:{}\n'.format(self.course_name, self.student_id)
+
+class Deadline(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	work_type = db.Column(db.Integer, nullable=False)
+	brief_desc = db.Column(db.String(100), nullable=False)
+	details = db.Column(db.String(750))
+	course = db.Column(db.Integer, db.ForeignKey('course.id'), nullable=False)
+
+	def __repr__(self):
+		return 'Work: {}'.format(self.work_type)
+# class HasWork(db.Model):
+# 	id = db.Column(db.Integer, primary_key=True)
+# 	course_id = db.Column(db.Integer, db.ForeignKey('course.id'), nullable=False) #This is course.id
+# 	deadline_id = db.Column(db.Integer, db.ForeignKey('deadline.id'), nullable=False)
+
+# 	def __repr__(self):
+# 		return 'C:{}, D:{}\n'.format(self.course_id, self.deadline_id)

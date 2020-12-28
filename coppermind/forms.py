@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, RadioField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, RadioField, PasswordField, SubmitField, BooleanField, TextAreaField
 from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired, Length, EqualTo
 
@@ -21,3 +21,10 @@ class CourseForm(FlaskForm):
 	course_id = StringField("Which course would you like to talk about?", validators=[DataRequired(), Length(min=7, max=7)])
 	add_drop = RadioField("Do you wish to add this course? Or are you dropping it?", choices=[(1, "Add me to this course."), (0, "Drop me from this course.")], validators=[DataRequired()])
 	submit = SubmitField("That's it for now, Sazed.")
+
+class WorkForm(FlaskForm):
+	course_id = StringField("Which course would you like to talk about?", validators=[DataRequired(), Length(min=7, max=7)])
+	work_type = RadioField("What type of deadline is it?", choices=[(1, "Quiz"), (2, "Test"), (3, "Submission"), (4, "Project"), (5, "Viva"), (0, "Other")], validators=[DataRequired()])
+	brief_desc = StringField("Please give a brief description. (Max 100 characters)", validators=[DataRequired(), Length(max=100)])
+	details = TextAreaField("Any more details? (Max 750 characters)", validators=[Length(max=750)])
+	submit = SubmitField("Remember this for me.")

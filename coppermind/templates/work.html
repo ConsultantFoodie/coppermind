@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block heading %}
+	<h3>Add a deadline to one of your courses</h3>
+{% endblock %}
+
+{% block content %}
+	<form method="POST" action="{{ url_for('work') }}">
+		{{ form.csrf_token}}
+		{{ form.course_id.label }}
+		<br>
+		{{ form.course_id(size=20, placeholder="Course ID")}}
+		<br><br>
+		{{ form.work_type.label }}
+		<br>
+		{% for subfield in form.work_type %}
+		    <tr>
+		        <td>{{ subfield }}</td>
+		        <td>{{ subfield.label }} &nbsp; &nbsp;</td>
+		    </tr>
+		{% endfor %}
+		<br><br>
+		{{ form.brief_desc.label }}
+		<br>
+		{{ form.brief_desc(size=20, placeholder="Brief Description")}}
+		<br><br>
+		{{ form.details.label }}
+		<br>
+		{{ form.details(rows="4", cols="20")}}
+		<br><br>
+		{{ form.submit }}
+	</form>
+{% endblock %}
