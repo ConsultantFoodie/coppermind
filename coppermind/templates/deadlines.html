@@ -15,7 +15,28 @@
 		<p>You have the following deadlines coming up:</p>
 		<ul>
 			{% for work in display %}
-				<li>{{ work.work_type }} {{ work.brief_desc }}</li>
+				<!-- <li>{{ work.work_type }} {{ work.brief_desc }}</li> -->
+				<article class="media content-section">
+		          <div class="media-body">
+		            <h2>
+		            	{% if work.work_type == 1 %}
+		            		Quiz
+		            	{% elif work.work_type == 2 %}
+		            		Test
+		            	{% elif work.work_type == 3 %}
+		            		Submission
+		            	{% elif work.work_type == 4 %}
+		            		Project
+		            	{% elif work.work_type == 5 %}
+		            		Viva
+		            	{% else %}
+		            		Other
+		            	{% endif %}
+		            </h2>
+		            <h4>{{ work.brief_desc }}</h4>
+		            <p  class="article-content">{{ work.details }}</p>
+		          </div>
+		        </article>
 			{% endfor %}
 		</ul>
 	{% endif %}
