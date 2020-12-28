@@ -117,12 +117,17 @@ def courses():
 
 	return render_template("courses.html", form=form)
 
+'''
+	TODO
+	Store input date and time in database
+'''
+
 @app.route("/work", methods=['GET', 'POST'])
 def work():
 	form = WorkForm()
 	if form.validate_on_submit():
 		form.course_id.data = form.course_id.data.upper()
-		print(form.course_id.data, form.work_type.data, form.brief_desc.data, form.details.data)
+		print(form.course_id.data, form.submit_date.data, form.submit_time.data)
 		checker = Course.query.filter_by(course_name=form.course_id.data).first()
 		if checker:
 			deadline = Deadline(work_type=int(form.work_type.data), brief_desc=form.brief_desc.data, details=form.details.data)
@@ -132,6 +137,9 @@ def work():
 		else:
 			flash("Course does not exist", "danger")
 		return redirect(url_for("work"))
+	else:
+		print(form.errors)
+		print(form.submit_date.data)
 	return render_template("work.html", form=form)
 
 @app.route("/deadlines/<int:course_id>", methods=['GET', 'POST'])

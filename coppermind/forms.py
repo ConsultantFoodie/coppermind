@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, RadioField, PasswordField, SubmitField, BooleanField, TextAreaField
-from wtforms.fields.html5 import EmailField
+from wtforms.fields.html5 import EmailField, DateField, TimeField
 from wtforms.validators import DataRequired, Length, EqualTo
 
 class RegistrationForm(FlaskForm):
@@ -24,6 +24,8 @@ class CourseForm(FlaskForm):
 
 class WorkForm(FlaskForm):
 	course_id = StringField("Which course would you like to talk about?", validators=[DataRequired(), Length(min=7, max=7)])
+	submit_date = DateField("When is the deadline?", format='%Y-%m-%d', validators=[DataRequired()])
+	submit_time = TimeField("When is the deadline?", format='%H:%M', validators=[DataRequired()])	
 	work_type = RadioField("What type of deadline is it?", choices=[(1, "Quiz"), (2, "Test"), (3, "Submission"), (4, "Project"), (5, "Viva"), (0, "Other")], validators=[DataRequired()])
 	brief_desc = StringField("Please give a brief description. (Max 100 characters)", validators=[DataRequired(), Length(max=100)])
 	details = TextAreaField("Any more details? (Max 750 characters)", validators=[Length(max=750)])

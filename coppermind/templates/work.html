@@ -11,6 +11,14 @@
 		<br>
 		{{ form.course_id(size=20, placeholder="Course ID")}}
 		<br><br>
+		{{ form.submit_date.label }}
+		<br>
+		{{ form.submit_date }}
+		<br><br>
+		{{ form.submit_time.label }}
+		<br>
+		{{ form.submit_time }}
+		<br><br>
 		{{ form.work_type.label }}
 		<br>
 		{% for subfield in form.work_type %}
