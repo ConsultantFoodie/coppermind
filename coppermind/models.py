@@ -40,6 +40,8 @@ class Deadline(db.Model):
 	brief_desc = db.Column(db.String(100), nullable=False)
 	details = db.Column(db.String(750))
 	course = db.Column(db.Integer, db.ForeignKey('course.id'), nullable=False)
+	submit_date = db.Column(db.Date, nullable=False)
+	submit_time = db.Column(db.Time, nullable=False)
 
 	def __repr__(self):
 		return 'Work: {}'.format(self.work_type)

@@ -123,14 +123,14 @@ def courses():
 '''
 
 @app.route("/work", methods=['GET', 'POST'])
+@login_required
 def work():
 	form = WorkForm()
 	if form.validate_on_submit():
 		form.course_id.data = form.course_id.data.upper()
-		print(form.course_id.data, form.submit_date.data, form.submit_time.data)
 		checker = Course.query.filter_by(course_name=form.course_id.data).first()
 		if checker:
-			deadline = Deadline(work_type=int(form.work_type.data), brief_desc=form.brief_desc.data, details=form.details.data)
+			deadline = Deadline(work_type=int(form.work_type.data), brief_desc=form.brief_desc.data, details=form.details.data, submit_date=form.submit_date.data, submit_time=form.submit_time.data)
 			checker.deadlines.append(deadline)
 			db.session.commit()
 			flash("Added deadline.", "success")

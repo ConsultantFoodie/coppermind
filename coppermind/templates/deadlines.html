@@ -33,7 +33,8 @@
 		            		Other
 		            	{% endif %}
 		            </h2>
-		            <h4>{{ work.brief_desc }}</h4>
+		            <h3>{{ work.submit_date.strftime("%d %b, %Y. %A") }} {{ work.submit_time.strftime("%H:%I %p") }}</h3>
+		            <h5>{{ work.brief_desc }}</h5>
 		            <p  class="article-content">{{ work.details }}</p>
 		          </div>
 		        </article>
