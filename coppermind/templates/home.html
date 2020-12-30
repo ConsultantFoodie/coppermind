@@ -16,7 +16,7 @@
 {% endblock %}
 
 {% block content %}
-	{% if courses == None %}
+	{% if courses.__len__() == 0 %}
 		<p>It seems you have not told me about your coursework. Please do so at the earliest to help me assist you.</p>
 	{% else %}
 		<p>You wish to be reminded of the deadlines for the following courses:</p>

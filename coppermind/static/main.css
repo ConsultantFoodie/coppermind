@@ -30,6 +30,14 @@ footer {
   margin-top: auto;
 }
 
+article {
+  word-break: break-word;
+}
+
+.col-md-8 {
+  margin: auto;
+}
+
 #footer {
   margin: auto;
   text-align: center;
@@ -45,6 +53,10 @@ footer {
 
 .bg-steel {
   background-color: rgb(32, 187, 214);
+}
+
+#deadline-details {
+  word-wrap: break-word;
 }
 
 a.navbar-brand.mr-4 {
@@ -85,6 +97,9 @@ a.article-title:hover {
 
 .article-content {
   white-space: pre-line;
+  word-wrap: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .article-img {
@@ -119,4 +134,11 @@ a.article-title:hover {
 
 .account-heading {
   font-size: 2.5rem;
+}
+
+.media .content-section {
+  word-wrap: break-word;
+  word-wrap: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

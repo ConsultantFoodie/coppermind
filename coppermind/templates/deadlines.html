@@ -9,8 +9,8 @@
 <!-- TODO: Format deadlines properly
  -->
 {% block content %}
-	{% if current_user.courses == None %}
-		<p>It seems you have not told me about your coursework. Please do so at the earliest to help me assist you.</p>
+	{% if display.__len__() == 0 %}
+		<p>There are no deadlines for this course for now.</p>
 	{% else %}
 		<p>You have the following deadlines coming up:</p>
 		<ul>
@@ -35,7 +35,8 @@
 		            </h2>
 		            <h3>{{ work.submit_date.strftime("%d %b, %Y. %A") }} {{ work.submit_time.strftime("%H:%M") }}</h3>
 		            <h5>{{ work.brief_desc }}</h5>
-		            <p  class="article-content">{{ work.details }}</p>
+		            <span>{{ work.details }}</span>
+		            <h6><a href="{{ url_for('delete', course_id=course.id, deadline_id=work.id) }}">Remove deadline</a></h6>
 		          </div>
 		        </article>
 			{% endfor %}

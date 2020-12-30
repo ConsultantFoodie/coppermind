@@ -154,8 +154,25 @@ def work():
 @app.route("/deadlines/<int:course_id>", methods=['GET', 'POST'])
 def deadlines(course_id):
 	course = Course.query.get_or_404(int(course_id))
+	courses = db.session.query(Course).filter(Signup.course_id==Course.id, Signup.student_id==current_user.id).order_by(Signup.course_id).all()
+	student_course_list = [course.id for course in courses]
+	if course_id not in student_course_list:
+		flash("Please register yourself in this course to view its deadlines.", "danger")
+		return redirect(url_for('home'))
 	display = Deadline.query.filter_by(course=course_id).all()
 	return render_template("deadlines.html", display=display, course=course)
+
+@app.route("/deadlines/<int:course_id>/<int:deadline_id>/delete", methods=['GET', 'POST'])
+def delete(course_id, deadline_id):
+	deadline = Deadline.query.get_or_404(int(deadline_id))
+	courses = db.session.query(Course).filter(Signup.course_id==Course.id, Signup.student_id==current_user.id).order_by(Signup.course_id).all()
+	student_course_list = [course.id for course in courses]
+	if course_id not in student_course_list:
+		flash("Please register yourself in this course to change its deadlines.", "danger")
+		return redirect(url_for('home'))
+	db.session.delete(deadline)
+	db.session.commit()
+	return redirect(url_for('deadlines', course_id=course_id))
 
 @app.route("/logout")
 def logout():
