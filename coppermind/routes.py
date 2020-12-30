@@ -3,7 +3,15 @@ from flask_login import login_user, current_user, logout_user, login_required
 from coppermind.main import app, db, bcrypt
 from coppermind.forms import RegistrationForm, LoginForm, CourseForm, WorkForm
 from coppermind.models import Student, Course, Signup, Deadline
+import json
 
+course_list = []
+with open('coppermind/courses.json', 'r') as file:
+	course_list = json.load(file)
+	# course_list = course_list.sort(key=lambda x:x[:7])
+	# print(course_list)
+
+course_list.sort()
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/welcome')
@@ -63,7 +71,6 @@ def login():
 @login_required
 def home():
 	courses = db.session.query(Course).filter(Signup.course_id==Course.id, Signup.student_id==current_user.id).order_by(Signup.course_id).all()
-	# courses = courses.with_entities()
 	print(courses)
 	return render_template("home.html", courses=courses)
 
@@ -83,7 +90,6 @@ def courses():
 			student = Student.query.filter_by(email=current_user.email).first()
 			course = Course.query.filter_by(course_name=form.course_id.data).first()
 			print(course)
-			print("ALL: ", Course.query.all())
 			if not course:
 				course = Course(course_name=form.course_id.data)
 				db.session.add(course)
@@ -115,7 +121,7 @@ def courses():
 			flash("I seem to have trouble doing this. Can you check the Course ID? It should be exactly 7 characters long.", "danger")
 
 
-	return render_template("courses.html", form=form)
+	return render_template("courses.html", form=form, courses=course_list)
 
 '''
 	TODO
@@ -127,20 +133,23 @@ def courses():
 def work():
 	form = WorkForm()
 	if form.validate_on_submit():
-		form.course_id.data = form.course_id.data.upper()
+		print(form.submit_date.data, form.submit_time.data)
+		courses = db.session.query(Course).filter(Signup.course_id==Course.id, Signup.student_id==current_user.id).order_by(Signup.course_id).all()
+		student_course_list = [course.course_name for course in courses]
 		checker = Course.query.filter_by(course_name=form.course_id.data).first()
-		if checker:
+
+		if (form.course_id.data in student_course_list) and checker:
 			deadline = Deadline(work_type=int(form.work_type.data), brief_desc=form.brief_desc.data, details=form.details.data, submit_date=form.submit_date.data, submit_time=form.submit_time.data)
 			checker.deadlines.append(deadline)
 			db.session.commit()
 			flash("Added deadline.", "success")
 		else:
-			flash("Course does not exist", "danger")
+			flash("Please register yourself in this course first.", "danger")
 		return redirect(url_for("work"))
 	else:
 		print(form.errors)
 		print(form.submit_date.data)
-	return render_template("work.html", form=form)
+	return render_template("work.html", form=form, courses=course_list)
 
 @app.route("/deadlines/<int:course_id>", methods=['GET', 'POST'])
 def deadlines(course_id):

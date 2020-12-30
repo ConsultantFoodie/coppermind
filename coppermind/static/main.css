@@ -1,7 +1,13 @@
+html {
+  overflow: auto;
+}
+
 body {
   background: #fafafa;
   color: #333333;
   margin-top: 5rem;
+  align-content: center;
+  margin-bottom: 75px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -12,7 +18,23 @@ button {
   background-color: #cc6633;
   border-radius: 10px;
   display: inline;
-  
+}
+
+footer {
+  bottom: 0;
+  position: fixed;
+  height: 45px;
+  left: 0;
+  right: 0;
+  background-color: rgb(32, 187, 214);
+  margin-top: auto;
+}
+
+#footer {
+  margin: auto;
+  text-align: center;
+  color: white;
+  font-size: 20px;
 }
 
 #btn {
@@ -22,19 +44,26 @@ button {
 }
 
 .bg-steel {
-  background-color: #5f788a;
+  background-color: rgb(32, 187, 214);
+}
+
+a.navbar-brand.mr-4 {
+  color: rgb(150, 105, 53);
+  font-weight: bold;
+  font-size: x-large;
 }
 
 .site-header .navbar-nav .nav-link {
-  color: #cbd5db;
+  color: #ffffff;
+  font-weight: bold;
 }
 
 .site-header .navbar-nav .nav-link:hover {
-  color: #ffffff;
+  color: rgb(150, 105, 53);
 }
 
 .site-header .navbar-nav .nav-link.active {
-  font-weight: 500;
+  font-weight: bold;
 }
 
 .content-section {

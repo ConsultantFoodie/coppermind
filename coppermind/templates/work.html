@@ -9,7 +9,14 @@
 		{{ form.csrf_token}}
 		{{ form.course_id.label }}
 		<br>
-		{{ form.course_id(size=20, placeholder="Course ID")}}
+		{{ form.course_id(size=40, placeholder="Course ID", list="course_list") }}
+		<datalist id="course_list">
+			<select>
+	            {% for c in courses %}
+	                <option value="{{c}}"></option>
+	            {% endfor %}
+            </select>
+		</datalist>
 		<br><br>
 		{{ form.submit_date.label }}
 		<br>

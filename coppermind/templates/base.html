@@ -32,6 +32,7 @@
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
               {% if current_user.is_authenticated %}
+                <a class="nav-item nav-link" href="{{ url_for('work') }}">Add A Deadline</a>
                 <a class="nav-item nav-link" href="{{ url_for('courses') }}">Add/Drop Course</a>
                 <a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a>
               {% else %}
@@ -81,4 +82,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
+
+<footer>
+    <p id="footer"><strong>Powered by Harmony with <span style="font-size:150%;color:red;">♥</span></strong></p>
+</footer>
 </html>

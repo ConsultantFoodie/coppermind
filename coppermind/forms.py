@@ -18,12 +18,12 @@ class LoginForm(FlaskForm):
 	submit = SubmitField('Allow me to assist you.')
 
 class CourseForm(FlaskForm):
-	course_id = StringField("Which course would you like to talk about?", validators=[DataRequired(), Length(min=7, max=7)])
+	course_id = StringField("Which course would you like to talk about?", validators=[DataRequired(), Length(min=7)])
 	add_drop = RadioField("Do you wish to add this course? Or are you dropping it?", choices=[(1, "Add me to this course."), (0, "Drop me from this course.")], validators=[DataRequired()])
 	submit = SubmitField("That's it for now, Sazed.")
 
 class WorkForm(FlaskForm):
-	course_id = StringField("Which course would you like to talk about?", validators=[DataRequired(), Length(min=7, max=7)])
+	course_id = StringField("Which course would you like to talk about?", validators=[DataRequired(), Length(min=7)])
 	submit_date = DateField("When is the deadline?", format='%Y-%m-%d', validators=[DataRequired()])
 	submit_time = TimeField("When is the deadline?", format='%H:%M', validators=[DataRequired()])	
 	work_type = RadioField("What type of deadline is it?", choices=[(1, "Quiz"), (2, "Test"), (3, "Submission"), (4, "Project"), (5, "Viva"), (0, "Other")], validators=[DataRequired()])

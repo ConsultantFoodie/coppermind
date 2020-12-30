@@ -10,7 +10,7 @@ class Student(db.Model, UserMixin):
 	id = db.Column(db.Integer, primary_key=True)
 	gender = db.Column(db.Integer, nullable=False)
 	username = db.Column(db.String(30), nullable=False)
-	email = db.Column(db.String(40), unique=True, nullable=False)
+	email = db.Column(db.String(50), unique=True, nullable=False)
 	password = db.Column(db.String(60), nullable=False)
 	courses = db.relationship('Course', secondary='signup')
 
@@ -19,7 +19,7 @@ class Student(db.Model, UserMixin):
 
 class Course(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
-	course_name = db.Column(db.String(7), unique=True, nullable=False)
+	course_name = db.Column(db.String(150), unique=True, nullable=False)
 	deadlines = db.relationship('Deadline', backref='course_in', lazy=True)
 	students = db.relationship('Student', secondary='signup')
 
@@ -32,7 +32,7 @@ class Signup(db.Model):
 	student_id = db.Column(db.Integer, db.ForeignKey('student.id'), nullable=False)
 
 	def __repr__(self):
-		return 'C:{}, S:{}\n'.format(self.course_name, self.student_id)
+		return 'C:{}, S:{}\n'.format(self.course_id, self.student_id)
 
 class Deadline(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
