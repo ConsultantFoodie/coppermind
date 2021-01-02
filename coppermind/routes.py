@@ -59,7 +59,7 @@ def login():
 		student = Student.query.filter_by(email=form.email.data).first()
 		print(student)
 		if student and bcrypt.check_password_hash(student.password, form.password.data):
-			login_user(student, remember=form.remember.data)
+			login_user(student)
 			next_page = request.values.get('next')
 			print(request)
 			return redirect(next_page) if next_page else redirect(url_for('home'))

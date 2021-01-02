@@ -14,7 +14,6 @@ class RegistrationForm(FlaskForm):
 class LoginForm(FlaskForm):
 	email = EmailField("Please tell me your mailing address.", validators=[DataRequired()])
 	password = PasswordField("Please tell me the password to verify your identity.", validators=[DataRequired()])
-	remember = BooleanField('Should I remember you?')
 	submit = SubmitField('Allow me to assist you.')
 
 class CourseForm(FlaskForm):
