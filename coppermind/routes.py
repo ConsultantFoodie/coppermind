@@ -15,15 +15,6 @@ with open('coppermind/courses.json', 'r') as file:
 
 course_list.sort()
 
-def send_simple_message():
-    return requests.post(
-        "https://api.mailgun.net/v3/{}/messages".format(env['MAILGUN_DOMAIN']),
-        auth=("api", env['MAILGUN_API_KEY']),
-        data={"from": "Excited User <mailgun@{}>".format(env['MAILGUN_DOMAIN']),
-              "to": ["hardikti@gmail.com"],
-              "subject": "Hello",
-              "text": "Testing some Mailgun awesomness!"})
-
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/welcome')
 def welcome():
@@ -83,7 +74,6 @@ def login():
 def home():
 	courses = db.session.query(Course).filter(Signup.course_id==Course.id, Signup.student_id==current_user.id).order_by(Signup.course_id).all()
 	print(courses)
-	send_simple_message()
 	return render_template("home.html", courses=courses)
 
 
