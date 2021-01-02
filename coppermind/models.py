@@ -44,7 +44,10 @@ class Deadline(db.Model):
 	submit_time = db.Column(db.Time, nullable=False)
 
 	def __repr__(self):
-		return 'Work: {}'.format(self.work_type)
+		work_list = ['Other', 'Quiz', 'Test', 'Submission', 'Project', 'Viva']
+		deadline_str = "\n{0}\nDate: {1}\nTime: {2}\nBrief Details: {3}\n".format(work_list[int(self.work_type)], self.submit_date.strftime("%d %b, %Y. %A"),
+																			self.submit_time.strftime("%H:%M"), self.brief_desc)
+		return deadline_str
 # class HasWork(db.Model):
 # 	id = db.Column(db.Integer, primary_key=True)
 # 	course_id = db.Column(db.Integer, db.ForeignKey('course.id'), nullable=False) #This is course.id

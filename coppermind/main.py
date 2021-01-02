@@ -22,6 +22,6 @@ login_manager.needs_refresh_message_category = "info"
 @app.before_request
 def before_request():
     session.permanent = True
-    app.permanent_session_lifetime = timedelta(minutes=1)
+    app.permanent_session_lifetime = timedelta(minutes=5)
 
 from coppermind import routes

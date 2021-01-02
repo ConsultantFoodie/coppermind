@@ -6,12 +6,11 @@ from coppermind.models import Student, Course, Signup, Deadline
 import json
 from os import environ as env
 import requests
+from coppermind.mailer import MakeMailer
 
 course_list = []
 with open('coppermind/courses.json', 'r') as file:
 	course_list = json.load(file)
-	# course_list = course_list.sort(key=lambda x:x[:7])
-	# print(course_list)
 
 course_list.sort()
 
@@ -74,12 +73,11 @@ def login():
 def home():
 	courses = db.session.query(Course).filter(Signup.course_id==Course.id, Signup.student_id==current_user.id).order_by(Signup.course_id).all()
 	print(courses)
+	m = MakeMailer()
+	print("func:")
+	print(m.send_mail(current_user))
 	return render_template("home.html", courses=courses)
 
-
-'''
-	Add list of all courses from Kronos.
-'''
 
 @app.route('/courses', methods=['GET', 'POST'])
 @login_required
@@ -124,11 +122,6 @@ def courses():
 
 
 	return render_template("courses.html", form=form, courses=course_list)
-
-'''
-	TODO
-	Store input date and time in database
-'''
 
 @app.route("/work", methods=['GET', 'POST'])
 @login_required
