@@ -4,6 +4,7 @@ from coppermind.main import app, db, bcrypt
 from coppermind.forms import RegistrationForm, LoginForm, CourseForm, WorkForm
 from coppermind.models import Student, Course, Signup, Deadline
 import json
+from coppermind.mailer import send_simple_message
 
 course_list = []
 with open('coppermind/courses.json', 'r') as file:
@@ -72,6 +73,7 @@ def login():
 def home():
 	courses = db.session.query(Course).filter(Signup.course_id==Course.id, Signup.student_id==current_user.id).order_by(Signup.course_id).all()
 	print(courses)
+	send_simple_message()
 	return render_template("home.html", courses=courses)
 
 
