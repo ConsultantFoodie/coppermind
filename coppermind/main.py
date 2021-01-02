@@ -2,7 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
-# import os
+import os
 
 '''
 	TODO: Add passwords for users so that emails are not misused
@@ -11,7 +11,7 @@ from flask_login import LoginManager
 '''
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'IAmTheHeroOfAges'
+app.config['SECRET_KEY'] = os.urandom(24)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sazed.db'
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)

@@ -24,7 +24,7 @@ class Course(db.Model):
 	students = db.relationship('Student', secondary='signup')
 
 	def __repr__(self):
-		return '{}: {}'.format(self.course_name, self.deadlines)
+		return self.course_name
 
 class Signup(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
