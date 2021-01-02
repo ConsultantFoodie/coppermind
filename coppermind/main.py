@@ -4,11 +4,6 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 import os
 
-'''
-	TODO: Add passwords for users so that emails are not misused
-		  Add course details section
-		  Use CSS if possible
-'''
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24)
