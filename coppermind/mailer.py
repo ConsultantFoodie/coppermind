@@ -25,7 +25,8 @@ yag = yagmail.SMTP(user='coppermind.harmony@gmail.com', password='HeroOfAges')
 
 try:
     yag.send(to="hardikti@gmail.com", subject='A Message from Sazed', contents="TEST PLEASE")
-    print("Email sent successfully")
+    print("Timer")
     time.sleep(120)
+    print("Email sent successfully")
 except:
     print("Error, email was not sent")
