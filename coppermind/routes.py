@@ -150,6 +150,7 @@ def work():
 	return render_template("work.html", form=form, courses=course_list)
 
 @app.route("/deadlines/<int:course_id>", methods=['GET', 'POST'])
+@login_required
 def deadlines(course_id):
 	course = Course.query.get_or_404(int(course_id))
 	courses = db.session.query(Course).filter(Signup.course_id==Course.id, Signup.student_id==current_user.id).order_by(Signup.course_id).all()
@@ -161,6 +162,7 @@ def deadlines(course_id):
 	return render_template("deadlines.html", display=display, course=course)
 
 @app.route("/deadlines/<int:course_id>/<int:deadline_id>/delete", methods=['GET', 'POST'])
+@login_required
 def delete(course_id, deadline_id):
 	deadline = Deadline.query.get_or_404(int(deadline_id))
 	courses = db.session.query(Course).filter(Signup.course_id==Course.id, Signup.student_id==current_user.id).order_by(Signup.course_id).all()
