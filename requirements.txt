@@ -19,6 +19,7 @@ Jinja2==2.11.2
 lxml==4.6.2
 MarkupSafe==1.1.1
 premailer==3.7.0
+psycopg2-binary==2.8.6
 pycparser==2.20
 requests==2.25.1
 six==1.15.0

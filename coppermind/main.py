@@ -4,11 +4,13 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from datetime import timedelta
 import os
+import psycopg2
 
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+conn = psycopg2.connect(app.config['SQLALCHEMY_DATABASE_URI'], sslmode='require')
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
