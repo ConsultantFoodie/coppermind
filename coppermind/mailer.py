@@ -1,7 +1,7 @@
 # from coppermind.main import db
 # from coppermind.models import Student, Course, Signup, Deadline
 import yagmail
-
+import time
 yag = yagmail.SMTP(user='coppermind.harmony@gmail.com', password='HeroOfAges')
 
 # class MakeMailer():
@@ -26,5 +26,6 @@ yag = yagmail.SMTP(user='coppermind.harmony@gmail.com', password='HeroOfAges')
 try:
     yag.send(to="hardikti@gmail.com", subject='A Message from Sazed', contents="TEST PLEASE")
     print("Email sent successfully")
+    time.sleep(120)
 except:
     print("Error, email was not sent")
