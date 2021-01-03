@@ -90,6 +90,9 @@ def courses():
 			student = Student.query.filter_by(email=current_user.email).first()
 			course = Course.query.filter_by(course_name=form.course_id.data).first()
 			print(course)
+			if course not in course_list:
+				flash('Please choose a valid course.','danger')
+				return redirect(url_for('courses'))
 			if not course:
 				course = Course(course_name=form.course_id.data)
 				db.session.add(course)
@@ -118,7 +121,7 @@ def courses():
 		return redirect(url_for('courses'))
 	else:
 		if "course_id" in form.errors.keys():
-			flash("I seem to have trouble doing this. Can you check the Course ID? It should be exactly 7 characters long.", "danger")
+			flash("I seem to have trouble doing this.Can you check the Course ID? It should be at least 7 characters long.", "danger")
 
 
 	return render_template("courses.html", form=form, courses=course_list)
