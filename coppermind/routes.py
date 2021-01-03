@@ -6,7 +6,7 @@ from coppermind.models import Student, Course, Signup, Deadline
 import json
 from os import environ as env
 import requests
-from coppermind.mailer import MakeMailer
+# from coppermind.mailer import MakeMailer
 
 course_list = []
 with open('coppermind/courses.json', 'r') as file:
@@ -73,9 +73,9 @@ def login():
 def home():
 	courses = db.session.query(Course).filter(Signup.course_id==Course.id, Signup.student_id==current_user.id).order_by(Signup.course_id).all()
 	print(courses)
-	m = MakeMailer()
+	# m = MakeMailer()
 	print("func:")
-	print(m.send_mail(current_user))
+	# print(m.send_mail(current_user))
 	return render_template("home.html", courses=courses)
 
 
