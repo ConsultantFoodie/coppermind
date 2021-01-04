@@ -21,7 +21,7 @@
 	{% else %}
 		<p>You wish to be reminded of the deadlines for the following courses:</p>
 		<ul>
-			{% for course in courses%}
+			{% for course in courses|sort(attribute='course_name') %}
 				<li><a href="{{ url_for('deadlines', course_id=course.id) }}">{{ course.course_name }}</a></li>
 			{% endfor %}
 		</ul>
