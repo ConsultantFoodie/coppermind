@@ -90,7 +90,7 @@ def courses():
 			student = Student.query.filter_by(email=current_user.email).first()
 			course = Course.query.filter_by(course_name=form.course_id.data).first()
 			print(course)
-			if course not in course_list:
+			if form.course_id.data not in course_list:
 				flash('Please choose a valid course.','danger')
 				return redirect(url_for('courses'))
 			if not course:
