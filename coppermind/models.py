@@ -20,11 +20,11 @@ class Student(db.Model, UserMixin):
 class Course(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	course_name = db.Column(db.String(150), unique=True, nullable=False)
-	deadlines = db.relationship('Deadline', backref='course_in', lazy=True)
+	deadlines = db.relationship('Deadline', backref='course_in', lazy=True, cascade="all, delete, delete-orphan")
 	students = db.relationship('Student', secondary='signup')
 
 	def __repr__(self):
-		return self.course_name
+		return '{}: {}\n'.format(self.course_name, self.deadlines)
 
 class Signup(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
