@@ -29,3 +29,7 @@ class WorkForm(FlaskForm):
 	brief_desc = StringField("Please give a brief description. (Max 100 characters)", validators=[DataRequired(), Length(max=100)])
 	details = TextAreaField("Any more details? (Max 750 characters)", validators=[Length(max=750)])
 	submit = SubmitField("Remember this for me.")
+
+class ForgetForm(FlaskForm):
+	confirm_field = StringField("Are you sure you want to delete your account? Type 'ODIUM REIGNS' (without the quote marks) in the field below", validators=[DataRequired()])
+	submit = SubmitField("Thank you for your services, Sazed.")

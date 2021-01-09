@@ -1,7 +1,7 @@
 from flask import render_template, url_for, redirect, flash, request
 from flask_login import login_user, current_user, logout_user, login_required
 from coppermind.main import app, db, bcrypt
-from coppermind.forms import RegistrationForm, LoginForm, CourseForm, WorkForm
+from coppermind.forms import RegistrationForm, LoginForm, CourseForm, WorkForm, ForgetForm
 from coppermind.models import Student, Course, Signup, Deadline
 import json
 from os import environ as env
@@ -169,6 +169,23 @@ def delete(course_id, deadline_id):
 	db.session.delete(deadline)
 	db.session.commit()
 	return redirect(url_for('deadlines', course_id=course_id))
+
+@app.route("/forget", methods=['GET', 'POST'])
+@login_required
+def forget():
+	form = ForgetForm()
+	if form.validate_on_submit():
+		if form.confirm_field.data == "ODIUM REIGNS":
+			student = Student.query.filter_by(email=current_user.email).first()
+			db.session.delete(student)
+			db.session.commit()
+			flash("It has been an honour serving you.", "info")
+			return redirect(url_for('welcome'))
+		else:
+			flash('Please confirm your decision by typing the phrase.', "danger")
+			return redirect(url_for('forget'))
+
+	return render_template("forget.html", form=form)
 
 @app.route("/logout")
 def logout():
