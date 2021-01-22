@@ -20,7 +20,7 @@
 		<br><br>
 		{{ form.submit_date.label }}
 		<br>
-		{{ form.submit_date }}
+		{{ form.submit_date(min=today) }}
 		<br><br>
 		{{ form.submit_time.label }}
 		<br>

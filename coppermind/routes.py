@@ -6,6 +6,7 @@ from coppermind.models import Student, Course, Signup, Deadline
 import json
 from os import environ as env
 import requests
+import datetime
 
 course_list = []
 with open('coppermind/courses.json', 'r') as file:
@@ -126,6 +127,7 @@ def courses():
 @login_required
 def work():
 	form = WorkForm()
+	today = datetime.date.today()
 	if form.validate_on_submit():
 		print(form.submit_date.data, form.submit_time.data)
 		courses = db.session.query(Course).filter(Signup.course_id==Course.id, Signup.student_id==current_user.id).order_by(Signup.course_id).all()
@@ -143,7 +145,7 @@ def work():
 	else:
 		print(form.errors)
 		print(form.submit_date.data)
-	return render_template("work.html", form=form, courses=course_list)
+	return render_template("work.html", form=form, courses=course_list, today=today)
 
 @app.route("/deadlines/<int:course_id>", methods=['GET', 'POST'])
 @login_required
