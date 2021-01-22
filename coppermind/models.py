@@ -1,5 +1,6 @@
 from coppermind.main import db, login_manager
 from flask_login import UserMixin
+import datetime
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -42,6 +43,12 @@ class Deadline(db.Model):
 	course = db.Column(db.Integer, db.ForeignKey('course.id'), nullable=False)
 	submit_date = db.Column(db.Date, nullable=False)
 	submit_time = db.Column(db.Time, nullable=False)
+
+	@classmethod
+	def delete_old(cls):
+		today_date = datetime.date.today()
+		cls.query.filter(cls.submit_date < today_date).delete()
+		db.session.commit()
 
 	def __repr__(self):
 		work_list = ['Other', 'Quiz', 'Test', 'Submission', 'Project', 'Viva']
